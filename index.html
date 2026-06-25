@@ -1,100 +1,177 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  </head>
-  <body>
-    <div">
-      <section">
-        <h1>Caça ao Lanche Diferente</h1>
-
-        <p>Encontre o lanche diferente antes do tempo acabar!</p>
-
-        <hr>
-
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/styles.css" />
+    </head>
+    <body>
         <div>
-          <label>SEU NOME</label>
+            <!-- tela inicial do jogo -->
+            <section class="paginaInicial tela">
+                <h1>Caça ao Lanche Diferente</h1>
 
-          <input type="text" placeholder="Digite seu nome aqui..."/>
+                <p>Encontre o lanche diferente antes do tempo acabar!</p>
 
-          <button>▶️Jogar Agora!</button>
+                <hr />
 
-          <p>💡Observe a grade e toque no lanche que está <strong>diferente dos outros</strong>.Tome cuidado para nao estourar o limite de vidas!</p>
+                <!-- input para o jogador inserir o nome -->
+                <div class="input">
+                    <label>SEU NOME</label>
+                    <input type="text" placeholder="Digite seu nome aqui..." />
+                </div>
+
+                <!-- botao para comecar o jogo -->
+                <button class="btn">▶ Jogar Agora!</button>
+
+                <div class="descricao">
+                    <span class="emoji">💡</span>
+                    <p>
+                        Observe a grade e toque no lanche que está
+                        <span>diferente dos outros</span>. Tome cuidado para nao estourar o limite
+                        de vidas!
+                    </p>
+                </div>
+            </section>
+
+            <!-- tela principal: exibe dados da rodada e o grid -->
+            <section class="paginaJogo hidden">
+                <header id="dadosRodada" class="tela">
+                    <!-- nome do jogador -->
+                    <div class="itemRodada">
+                        <div class="caixaIcone">
+                            <span class="emoji">👤</span>
+                        </div>
+                        <div class="caixaDados">
+                            <div>
+                                <span>Jogador</span>
+                            </div>
+                            <div>
+                                <strong>Nome</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- pontuacao atual -->
+                    <div class="itemRodada">
+                        <div class="caixaIcone">
+                            <span class="emoji">⭐</span>
+                        </div>
+                        <div class="caixaDados">
+                            <div>
+                                <span>Pontos</span>
+                            </div>
+                            <div>
+                                <strong>000</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- vidas restantes -->
+                    <div class="itemRodada">
+                        <div class="caixaIcone">
+                            <span class="emoji">♥️</span>
+                        </div>
+                        <div class="caixaDados">
+                            <div>
+                                <span>Vidas</span>
+                            </div>
+                            <div>
+                                <strong>♥️♥️♥️</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- tempo restante -->
+                    <div class="itemRodada">
+                        <div class="caixaIcone">
+                            <span class="emoji">🕛</span>
+                        </div>
+                        <div class="caixaDados">
+                            <div>
+                                <span>Tempo</span>
+                            </div>
+                            <div>
+                                <strong>12s</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- rodada atual -->
+                    <div class="itemRodada">
+                        <div class="left-box">
+                            <span class="emoji"></span>
+                        </div>
+                        <div class="caixaDados">
+                            <div>
+                                <span>Rodada</span>
+                            </div>
+                            <div>
+                                <strong>10/10</strong>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="tela caixaInfo">
+                    <span class="emoji">🔍</span>
+                    <p>Encontre o lanche <span>diferente</span>!</p>
+                </div>
+
+                <!-- grid do jogo: deixei vazio para ser preenchido com js -->
+                <section class="tela gridJogo">grid vai aqui</section>
+
+                <p class="textoDica">Toque no lanche diferente para ganhar pontos!</p>
+            </section>
+
+            <!-- tela final do jogo: mostra resultado e opcao para jogar novamente -->
+            <section class="paginaFinal tela hidden">
+                <header>
+                    <div class="circuloTrofeu">
+                        <span class="emoji">🏆</span>
+                    </div>
+                    <h1>Fim de Jogo!</h1>
+                    <p>Veja seus resultados abaixo!</p>
+                </header>
+
+                <hr />
+
+                <!-- resumo dos dados da rodada -->
+                <section class="gridPontuacao">
+                    <!-- pontuacao -->
+                    <div class="cardPontuacao">
+                        <span class="emoji">⭐</span>
+                        <span>PONTUACAO FINAL</span>
+                        <strong>0</strong>
+                    </div>
+
+                    <!-- rodadas vencidas -->
+                    <div class="cardPontuacao">
+                        <span class="emoji">🏅</span>
+                        <span>RODADAS VENCIDAS</span>
+                        <strong>7/10</strong>
+                    </div>
+
+                    <!-- melhor tempo -->
+                    <div class="cardPontuacao">
+                        <span class="emoji">⌛</span>
+                        <span>MELHOR TEMPO</span>
+                        <strong>6.2s</strong>
+                    </div>
+
+                    <!-- vidas restantes -->
+                    <div class="cardPontuacao">
+                        <span class="emoji">❤️</span>
+                        <span>VIDAS RESTANTES</span>
+                        <strong>0</strong>
+                    </div>
+                </section>
+
+                <!-- botao para jogar novamente -->
+                <button class="btn">⟲ Jogar Novamente!</button>
+            </section>
         </div>
-      </section>
 
-      <section>
-        <section>
-          <div>
-            <span>👤Jogador</span>
-            <strong>---</strong>
-          </div>
-
-          <div>
-            <span>⭐ Pontos</span>
-            <strong>0</strong>
-          </div>
-
-          <div>
-            <span>❤️ Vidas</span>
-            <strong>3</strong>
-          </div>
-
-          <div>
-            <span>🏆Rodada</span>
-            <strong>1/10</strong>
-          </div>
-
-          <div>
-            <span>🕛Tempo</span>
-            <strong>12s</strong>
-          </div>
-        </section>
-
-        <p>🔍Encontre o lanche <strong>diferente</strong>!</p>
-
-        <section>grid vai aqui</section>
-
-         <p>Toque no lanche diferente para ganhar pontos!</p>
-      </section>
-
-      <section>
-        <header>
-          <h1>🏆Fim de jogo!</h1>
-          <p>Veja seu resultado abaixo!</p>
-        </header>
-        
-        <hr>
-
-        <section>
-          <div>
-            <span>⭐ PONTUACAO FINAL</span>
-            <strong>0</strong>
-          </div>
-
-          <div>
-            <span>🏅RODADAS VENCIDAS</span>
-            <strong>7/10</strong>
-          </div>
-
-          <div>
-            <span>⌛ MELHOR TEMPO</span>
-            <strong>6.2s</strong>
-          </div>
-
-          <div>
-            <span>❤️ VIDAS RESTANTES</span>
-            <strong>0</strong>
-          </div>
-        <button>🔄️Jogar Novamente!</button>
-        
-        </section>
-
-      </section>
-    </div>
-
-    <script src="./js/script.js"></script>
-  </body>
+        <script src="./js/script.js"></script>
+    </body>
 </html>
