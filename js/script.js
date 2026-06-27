@@ -3,11 +3,11 @@
     esconder a tela inicial e mostrar a tela do jogo -
     atualizar o nome na tela do jogo -
     criar o grid com js -
-    aumentar o tamanho do grid de acordo com a rodada
+    aumentar o tamanho do grid de acordo com a rodada - 
     sortear uma posição diferente e colocar um emoji diferente nessa posicao - 
     trocar os emojis a cada rodada
     verificar o clique do jogador - 
-    atualizar pontos, vidas e rodada: com novo grid 
+    atualizar pontos, vidas e rodada: com novo grid -
     mostrar a tela final quando o jogo acabar com os dados do jogador -
 */
 
@@ -55,13 +55,18 @@ function iniciarJogo() {
     gerarGrid();
 }
 
-// criei a funcao para gerar o grid, inicialmente com 16 elementos, 4x4, com todos os cards sendo botoes
+// criei a funcao para gerar o grid, tamanho dinamico e com todos os cards sendo botoes
 // para serem clicáveis
 function gerarGrid() {
     // usei replaceChildren para limpar o grid, pois a cada rodada os novos cards estavam sendo gerados abaixo dos anteriores
     grid.replaceChildren();
-    //grid 4x4
-    const cardTotal = 16;
+
+    const tamanho = calcularGrid();
+    const cardTotal = tamanho * tamanho;
+
+    // Usei o js para mudar o numero de colunas do grid de acordo com a dificuldade da rodada
+    grid.style.gridTemplateColumns = "repeat(" + tamanho + ", 1fr)";
+
     const posicaoDiferente = Math.floor(Math.random() * cardTotal);
 
     for (let i = 0; i < cardTotal; i++) {
@@ -76,7 +81,7 @@ function gerarGrid() {
 
         card.classList.add("cardGrid");
 
-        // evento de clique em cada botao para verificar se o esta correto ou nao
+        // evento de clique em cada botao para verificar se o lanche esta correto ou nao
         card.addEventListener("click", function () {
             verificarClique(cardCorreto);
         });
@@ -92,12 +97,12 @@ function verificarClique(cardCorreto) {
         pontos += 100;
         rodadaAtual++;
         atualizarDados();
-
         if (fimJogo()) return;
 
         gerarGrid();
     } else {
         vidas--;
+        pontos -= 50;
         atualizarDados();
         if (fimJogo()) return;
     }
@@ -144,6 +149,13 @@ function jogarNovamente() {
     paginaFinal.classList.add("hidden");
 
     iniciarJogo();
+}
+
+//funcao para definir o tamanho do grid de acordo com a rodada
+function calcularGrid() {
+    if (rodadaAtual <= 3) return 5;
+    else if (rodadaAtual <= 6) return 6;
+    else return 7;
 }
 
 //listener para o botao de iniciar o jogo
