@@ -12,8 +12,8 @@
     --fonteTexto: "Nunito", sans-serif;
 
     --fundo: linear-gradient(#ffad2f, #e63946);
-    --fundoCard: #fffdf0;
-    --fundoAmarelo: #fff5d6;
+    --fundoCard: #fff5d6;
+    --fundoAmarelo: #fffdf0;
     --fundoVermelho: #fff0f0;
 
     --vermelhoPrincipal: #e63946;
@@ -38,7 +38,7 @@ body {
 
 .tela {
     width: 32rem;
-    background-color: var(--fundoCard);
+    background-color: var(--fundoAmarelo);
     border: 3px solid var(--borda);
     border-radius: 20px;
     text-align: center;
@@ -48,15 +48,15 @@ body {
 /*usei o css para esconder as outras telas do jogo
 fiz assim porque o seletor da tela do jogo estava sobrescrevendo e nao ficando oculta*/
 
-.paginaInicial.hidden,
-.paginaJogo.hidden,
-.paginaFinal.hidden {
+#paginaInicial.hidden,
+#paginaJogo.hidden,
+#paginaFinal.hidden {
     display: none;
 }
 
 /*Estilo tela inicial*/
 
-.paginaInicial h1 {
+#paginaInicial h1 {
     font-family: var(--fonteTitulo);
     color: var(--vermelhoPrincipal);
     font-size: 2.5rem;
@@ -68,7 +68,7 @@ hr {
     border: 1px solid var(--borda);
 }
 
-.paginaInicial p {
+#paginaInicial p {
     font-size: 0.9rem;
     color: var(--textoSuave);
     font-weight: bold;
@@ -97,7 +97,7 @@ p span {
     height: 3.5rem;
     border: 3px solid var(--borda);
     border-radius: 16px;
-    background-color: var(--fundoAmarelo);
+    background-color: var(--fundoCard);
     font-size: 1rem;
     outline: none;
     font-family: var(--fonteTitulo);
@@ -149,7 +149,7 @@ p span {
 
 /*Estilo tela do jogo*/
 
-.paginaJogo {
+#paginaJogo {
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -188,8 +188,28 @@ p span {
     font-weight: bold;
 }
 
-.gridJogo {
+/* estilo inicial do grid, usei o display grid para organizar os cards */
+#gridJogo {
     margin-bottom: -10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+/* usei a propriedade aspect ratio para deixar os cards quadrados  */
+.cardGrid{
+    border: 3px solid var(--borda);
+    aspect-ratio: 1/1; 
+    border-radius: 10px;
+    background-color: var(--fundoCard);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.cardGrid:hover{
+    border-color: var(--vermelhoPrincipal);
+    background-color: var(--fundoVermelho);
+    transform: scale(1.1);
 }
 
 .textoDica {
@@ -215,12 +235,12 @@ p span {
     font-size: 3rem;
 }
 
-.paginaFinal h1 {
+#paginaFinal h1 {
     font-family: var(--fonteTitulo);
     color: var(--vermelhoPrincipal);
 }
 
-.paginaFinal p {
+#paginaFinal p {
     font-family: var(--fonteTitulo);
     color: var(--textoSuave);
 }
