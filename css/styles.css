@@ -197,16 +197,16 @@ p span {
 }
 
 /* usei a propriedade aspect ratio para deixar os cards quadrados  */
-.cardGrid{
+.cardGrid {
     border: 3px solid var(--borda);
-    aspect-ratio: 1/1; 
+    aspect-ratio: 1/1;
     border-radius: 10px;
     background-color: var(--fundoCard);
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-.cardGrid:hover{
+.cardGrid:hover {
     border-color: var(--vermelhoPrincipal);
     background-color: var(--fundoVermelho);
     transform: scale(1.1);
