@@ -5,10 +5,13 @@
     criar o grid com js -
     aumentar o tamanho do grid de acordo com a rodada - 
     sortear uma posição diferente e colocar um emoji diferente nessa posicao - 
-    trocar os emojis a cada rodada
+    trocar os emojis a cada rodada - 
     verificar o clique do jogador - 
     atualizar pontos, vidas e rodada: com novo grid -
     mostrar a tela final quando o jogo acabar com os dados do jogador -
+    adicionar tempo a cada rodada
+    adicionar validacao de dados
+    entender o que a atividade quer dizer com variaveis soltas
 */
 
 // passar os objetos html para o js
@@ -37,6 +40,21 @@ const vidasRestantes = document.getElementById("vidasRestantes");
 // numero de rodadas maximas
 const rodadaTotal = 10;
 
+//array de objetos com os emotes para cada rodada, aumentando a dificuldade de acordo com o indice
+// usei objeto ao inves de array para  ficar mais facil de entender na chamada do emoji
+const emojiRodada = [
+    { padrao: "🍕", diferente: "🍔" },
+    { padrao: "🍟", diferente: "🌭" },
+    { padrao: "🥐", diferente: "🥨" },
+    { padrao: "🥞", diferente: "🧇" },
+    { padrao: "🍣", diferente: "🍛" },
+    { padrao: "🍧", diferente: "🧁" },
+    { padrao: "🥤", diferente: "🥫" },
+    { padrao: "🍪", diferente: "🍩" },
+    { padrao: "🍗", diferente: "🍖" },
+    { padrao: "🍎", diferente: "🍅" },
+];
+
 // variaveis para as informacoes de cada rodada
 let pontos = 0;
 let vidas = 3;
@@ -63,6 +81,7 @@ function gerarGrid() {
 
     const tamanho = calcularGrid();
     const cardTotal = tamanho * tamanho;
+    const emoji = pegarEmoji();
 
     // Usei o js para mudar o numero de colunas do grid de acordo com a dificuldade da rodada
     grid.style.gridTemplateColumns = "repeat(" + tamanho + ", 1fr)";
@@ -70,25 +89,31 @@ function gerarGrid() {
     const posicaoDiferente = Math.floor(Math.random() * cardTotal);
 
     for (let i = 0; i < cardTotal; i++) {
-        const card = document.createElement("button");
-        let cardCorreto = false;
-
-        //colocando o conteudo nos botoes, se o indice for igual ao numero sorteado o emoji sera diferente dos outros
-        if (i === posicaoDiferente) {
-            cardCorreto = true;
-            card.textContent = "🍔";
-        } else card.textContent = "🍕";
-
-        card.classList.add("cardGrid");
-
-        // evento de clique em cada botao para verificar se o lanche esta correto ou nao
-        card.addEventListener("click", function () {
-            verificarClique(cardCorreto);
-        });
-
+        const card = criarCard(i, posicaoDiferente, emoji);
         //inserindo dentro do grid
         grid.appendChild(card);
     }
+}
+
+//funcao para criar um card do grid e retorna-lo
+function criarCard(indice, posicao, emoji) {
+    const card = document.createElement("button");
+    let cardCorreto = false;
+
+    //colocando o conteudo nos botoes, se o indice for igual ao numero sorteado o emoji sera diferente dos outros
+    if (indice === posicao) {
+        cardCorreto = true;
+        card.textContent = emoji.diferente;
+    } else card.textContent = emoji.padrao;
+
+    card.classList.add("cardGrid");
+
+    // evento de clique em cada botao para verificar se o lanche esta correto ou nao
+    card.addEventListener("click", function () {
+        verificarClique(cardCorreto);
+    });
+
+    return card;
 }
 
 // criei uma funcao para verificar o clique do jogador, se foi lanche correto(diferente) ou nao, e atualizar os dados de cada rodada
@@ -129,12 +154,14 @@ function fimJogo() {
         paginaFinal.classList.remove("hidden");
         return true;
     }
+
+    return false;
 }
 
 //funcao para atualizar os dados do jogador na tela final
 function atualizarFim() {
     pontuacaoFinal.textContent = pontos;
-    rodadasVencidas.textContent = rodadaAtual - 1 + "/" + rodadaTotal;
+    rodadasVencidas.textContent = (rodadaAtual - 1) + "/" + rodadaTotal;
     vidasRestantes.textContent = "♥️".repeat(vidas);
 }
 
@@ -156,6 +183,11 @@ function calcularGrid() {
     if (rodadaAtual <= 3) return 5;
     else if (rodadaAtual <= 6) return 6;
     else return 7;
+}
+
+//funcao para retornar um indice do array de emojis
+function pegarEmoji() {
+    return emojiRodada[rodadaAtual - 1];
 }
 
 //listener para o botao de iniciar o jogo
