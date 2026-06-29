@@ -1,23 +1,3 @@
-/*
-    pegar o nome do jogador ao clicar no botao jogar agora -
-    esconder a tela inicial e mostrar a tela do jogo -
-    atualizar o nome na tela do jogo -
-    criar o grid com js -
-    aumentar o tamanho do grid de acordo com a rodada - 
-    sortear uma posição diferente e colocar um emoji diferente nessa posicao - 
-    trocar os emojis a cada rodada - 
-    verificar o clique do jogador - 
-    atualizar pontos, vidas e rodada: com novo grid -
-    mostrar a tela final quando o jogo acabar com os dados do jogador -
-    adicionar tempo a cada rodada-
-        comecar a contagem assim que a rodada comeca-
-        parar o timer caso o jogador acerte, e comecar a contagem na proxima rodada-
-        caso errar o erro é penalizado e o tempo continua -
-    adicionar validacao de dados
-    entender o que a atividade quer dizer com variaveis soltas
-*/
-
-// passar os objetos html para o js
 // telas
 const paginaInicial = document.getElementById("paginaInicial");
 const paginaJogo = document.getElementById("paginaJogo");
@@ -41,13 +21,13 @@ const pontuacaoFinal = document.getElementById("pontuacaoFinal");
 const rodadasVencidas = document.getElementById("rodadasVencidas");
 const vidasRestantes = document.getElementById("vidasRestantes");
 const melhorTempoFinal = document.getElementById("melhorTempo");
+const mensagemFinal = document.getElementById("mensagemFinal");
 
 // numero de rodadas maximas
 const rodadaTotal = 10;
 const tempoTotal = 10;
 
 //array de objetos com os emojis para cada rodada, aumentando a dificuldade de acordo com o indice
-// usei objeto ao inves de array para  ficar mais facil de entender na chamada do emoji
 const emojiRodada = [
     { padrao: "🍕", diferente: "🍔" },
     { padrao: "🍟", diferente: "🌭" },
@@ -68,10 +48,19 @@ let rodadaAtual = 1;
 let contador = 10;
 let contadorInterval;
 let melhorTempo = null;
+let jogador = "";
 
 //criei a funcao para iniciar o jogo: pegar o nome do jogador, esconder e mostrar as telas e gerar o grid do jogo
 function iniciarJogo() {
-    let nomeJogador = input.value;
+    //usei trim para remover espacos do inicio e final se houver
+    let nomeJogador = input.value.trim();
+
+    if (nomeJogador === "") {
+        alert("⚠️ Digite seu nome para iniciar!");
+        return;
+    }
+    //atualizei a variavel para exibir o nome na tela final
+    jogador = nomeJogador;
 
     nome.textContent = nomeJogador;
 
@@ -136,15 +125,26 @@ function verificarClique(cardCorreto) {
         rodadaAtual++;
         atualizarDados();
 
-        if (fimJogo()) return;
+        if (verificarFim()) return;
 
         gerarGrid();
     } else {
-        vidas--;
-        pontos -= 50;
-        atualizarDados();
-        if (fimJogo()) return;
+        penalizarJogador();
+
+        if (verificarFim()) return;
     }
+}
+
+//funcao para penalizar o jogador e evitar da pontuacao ficar negativa (criei outra funcao para nao ficar muito extenso)
+function penalizarJogador() {
+    vidas--;
+    pontos -= 50;
+
+    if (pontos < 0) {
+        pontos = 0;
+    }
+
+    atualizarDados();
 }
 
 //funcao para atualizar os dados em cada rodada
@@ -155,7 +155,7 @@ function atualizarDados() {
 }
 
 //funcao para verificar fim de jogo e mostrar a tela final
-function fimJogo() {
+function verificarFim() {
     if (rodadaAtual > rodadaTotal) {
         pararTempo();
         atualizarFim();
@@ -176,6 +176,7 @@ function fimJogo() {
 
 //funcao para atualizar os dados do jogador na tela final
 function atualizarFim() {
+    mensagemFinal.textContent = jogador + ", veja seus resultados abaixo!";
     pontuacaoFinal.textContent = pontos;
     rodadasVencidas.textContent = rodadaAtual - 1 + "/" + rodadaTotal;
     vidasRestantes.textContent = "♥️".repeat(vidas);
@@ -208,7 +209,7 @@ function calcularGrid() {
     else return 7;
 }
 
-//funcao para retornar um indice do array de emojis
+//funcao para retornar um objeto do array de emojis
 function pegarEmoji() {
     return emojiRodada[rodadaAtual - 1];
 }
@@ -216,7 +217,7 @@ function pegarEmoji() {
 // funcao para atualizar o melhor tempo quando o jogador acerta uma rodada
 function atualizarMelhorTempo() {
     const tempoGasto = tempoTotal - contador;
-    
+
     // atualizo o melhor tempo se ainda nao existir um ou se o novo tempo for menor
     if (melhorTempo === null || tempoGasto < melhorTempo) {
         melhorTempo = tempoGasto;
@@ -241,12 +242,10 @@ function atualizarTempo() {
     //verifico se o contador chegou a 0, se sim o jogador perde uma vida
     if (contador === 0) {
         pararTempo();
-        vidas--;
-        pontos -= 50;
-        atualizarDados();
+        penalizarJogador();
 
         //verifico se o jogo acabou
-        if (fimJogo()) return;
+        if (verificarFim()) return;
         else gerarGrid();
     }
 }
@@ -258,5 +257,11 @@ function pararTempo() {
 
 //listener para o botao de iniciar o jogo
 btnJogar.addEventListener("click", iniciarJogo);
+//listener para iniciar o jogo ao apertar Enter
+input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        iniciarJogo();
+    }
+});
 //listener para o botao de jogar novamente
 btnAgain.addEventListener("click", jogarNovamente);
